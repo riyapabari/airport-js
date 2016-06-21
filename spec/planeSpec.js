@@ -1,20 +1,26 @@
+'use strict';
+
 describe('Plane', function() {
 
 	var plane;
+	var airport;
 
 	beforeEach(function() {
 		plane = new Plane();
-		airport = jasmine.createSpy('airport')
+		airport = jasmine.createSpyObj('airport',['clearForLanding', 'clearForTakeOff']);
 	})
 
 	describe('land', function() {
-		it('planes can land at an airport', function() {
-			expect(plane.land(airport)).toBeDefined();
+		it('can land at an airport', function() {
+			plane.land(airport);
+			expect(airport.clearForLanding).toHaveBeenCalledWith(plane);
 		});
 	});
 	describe('takeOff', function() {
-		it('planes can take off', function(){
-			expect(plane.takeOff(airport)).toBeDefined();
+		it('can takeoff from an airport', function() {
+			plane.land(airport);
+			plane.takeOff();
+			expect(airport.clearForTakeOff).toHaveBeenCalled();
 		});
 	});
 

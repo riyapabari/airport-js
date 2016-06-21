@@ -1,9 +1,24 @@
-function Airport(weatherReporter) {
-	this._weatherReporter = typeof weatherReporter !== 'undefined' ? weatherReporter : new WeatherReporter();
-}
+'use strict';
 
-Airport.prototype.land = function(plane) {
-	if(this._weatherReporter.isStormy()) {
-		throw new Error('Cannot land plane, too stormy!');
+function Airport(weather) {
+	this._weather = typeof weather !== 'undefined' ? weather : new Weather();
+	this._hangar = [];
+};
+
+Airport.prototype.planes = function() {
+	return this._hangar;
+};
+
+Airport.prototype.clearForLanding = function(plane) {
+	if(this._weather.isStormy()) {
+		throw new Error('Cannot land during storm!');
 	}
+	this._hangar.push(plane);
+};
+
+Airport.prototype.clearForTakeOff = function(plane) {
+	if(this._weather.isStormy()) {
+		throw new Error('Cannot takeoff during storm!');
+	}
+	this._hangar=[];
 };
